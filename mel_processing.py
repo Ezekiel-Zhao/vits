@@ -15,7 +15,6 @@ from librosa.filters import mel as librosa_mel_fn
 
 MAX_WAV_VALUE = 32768.0
 
-'test'
 
 def dynamic_range_compression_torch(x, C=1, clip_val=1e-5):
     """

@@ -1,3 +1,4 @@
+*2023/Oct/20
 This repo aims to equip VITS with self-supervised learning ability. \
 Trying to combine VITS with Wave2Vec2.0, most of the code will based on VITS.\
 The original idea: Trying to using wave2vec2 to generate phonemes from audiowave, to replace the word preprocess part of VITS.\

@@ -554,17 +554,14 @@ class psudo_phoneme(nn.Module):
   def forward(self, audio_wave):
     ## check sampling rate
     audio_wave = audio_wave.squeeze(1) # now has size [batch_size, wave_len]
-    print(audio_wave.shape)
 
     self.model.to(audio_wave.device)
     self.model.eval() 
 
     input_values = self.processor(audio_wave, return_tensors="pt", sampling_rate=16000).input_values.squeeze(0) #############################
-    print(input_values.shape)
  
     with torch.no_grad():
         outputs = self.model(input_values)
-        print('reached here')
         hidden_representations = outputs.last_hidden_state
 
     batch_of_phonemes = []

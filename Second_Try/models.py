@@ -683,6 +683,5 @@ class pseudo_text_encoder(nn.Module):
 
         x = self.encoder(x * x_mask, x_mask)
         stats = self.proj(x) * x_mask
-
         m, logs = torch.split(stats, self.out_channels, dim=1)
         return x, m, logs, x_mask

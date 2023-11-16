@@ -553,6 +553,9 @@ class psudo_phoneme(nn.Module):
 
   def forward(self, audio_wave):
     ## check sampling rate
+    '''
+    return type is list of list of phonemes.[[]] 2d-list
+    '''
     audio_wave = audio_wave.squeeze(1) # now has size [batch_size, wave_len]
 
     self.model.to(audio_wave.device)
@@ -585,6 +588,81 @@ class psudo_phoneme(nn.Module):
                 current_index = index
         batch_of_phonemes.append(merged_indices)
 
+    # Sort batch of phonemes by length
+    # Pad batch of phonemes with zeros
+    # convert to tensor
+    _, ids_sorted_decreasing = torch.sort(torch.LongTensor([len(x) for x in batch_of_phonemes]),dim=0, descending=True)
+    max_text_len = max([len(x) for x in batch_of_phonemes])
+    text_lengths = torch.LongTensor(len(batch_of_phonemes))
+    text_padded = torch.LongTensor(len(batch_of_phonemes), max_text_len)
+    text_padded.zero_()
+    for i in range(len(ids_sorted_decreasing)):
+        row = batch_of_phonemes[ids_sorted_decreasing[i]]
+        text = row
+        text_padded[i, :len(text)] = torch.LongTensor(text)
+        text_lengths[i] = len(text)
+        
+    
+    '''
+    # test 2
+    import time
+    t1 = time.time()
+    max_text_len = max([len(x) for x in batch_of_phonemes])
+    text_padded = torch.LongTensor(len(batch_of_phonemes), max_text_len)
+    text_padded.zero_()
+    for i in range(len(batch_of_phonemes)):
+       text_padded[i, :len(batch_of_phonemes[i])] = torch.LongTensor(batch_of_phonemes[i])
+    t2 = time.time()
+    print("time for padding", t2-t1)'''
+    
 
-    #return torch.tensor(batch_of_phonemes).to(audio_wave.device)
-    return batch_of_phonemes
+
+    return text_padded
+  
+class Conv1DEncoder(nn.Module):
+    def __init__(self, in_channels, out_channels, kernel_size, stride, padding):
+        super(Conv1DEncoder, self).__init__()
+        # First 1D convolutional layer
+        self.conv1 = nn.Conv1d(in_channels, out_channels, kernel_size, stride, padding)
+        
+        # Second 1D convolutional layer
+        # Here, in_channels for conv2 are the same as out_channels for conv1
+        self.conv2 = nn.Conv1d(out_channels, out_channels, kernel_size, stride, padding)
+
+        # ReLU activation function
+        self.relu = nn.ReLU()
+
+    def forward(self, x):
+        # Apply first convolution, followed by ReLU
+        x = self.relu(self.conv1(x))
+        
+        # Apply second convolution, followed by ReLU
+        x = self.relu(self.conv2(x))
+
+        return x
+
+
+
+class pseudo_text_encoder(nn.Module):
+    
+    def __init__(self, n_vocab, inter_channels,
+                        hidden_channels,
+                        n_layers, kernel_size):
+        super().__init__()
+        self.n_vocab = n_vocab
+        self.out_channels = inter_channels
+        self.hidden_channels = hidden_channels
+        self.n_layers = n_layers
+        self.kernel_size = kernel_size
+
+        self.emb = nn.Embedding(n_vocab, hidden_channels)
+        nn.init.normal_(self.emb.weight, 0.0, hidden_channels**-0.5)
+        self.encoder = Conv1DEncoder(hidden_channels, inter_channels, kernel_size, 1, 0)
+
+    def forward(self, x): 
+        print(x.shape)
+        x = self.emb(x)
+        x = x.permute(0,2,1)
+        print(x.shape)
+        x =  self.encoder(x)
+        return x

@@ -16,3 +16,6 @@ Tried to use Wave2vec2 in Dataloader to try whether the original idea is make se
 *2023/Nov/12 \
 Edited Dataset and Dataloader, so that fit the pre-training and fine-tuning mode.\
 Use Wave2Vec2 latent representation + K-Means as psedo-phoneme.
+
+*2023/Nov/16 \
+Edited Models.py, finish pseudo phoneme extraction part, and finish a part of Pseudi-Text-Encoder.

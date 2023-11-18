@@ -1,6 +1,6 @@
 *2023/Oct/20\
 This repository is a reimplementation of the code for the paper titled 'Transfer Learning Framework for Low-Resource Text-to-Speech using a Large-Scale Unlabeled Speech Corpus' created in response to the original paper's lack of provided code for the discussed method. \
-See the link https://doi.org/10.48550/arXiv.2203.15447 \
+See the link https://doi.org/10.48550/arXiv.2203.15447
 
 **Methdology**
 Aims to equip VITS with self-supervised learning ability. \

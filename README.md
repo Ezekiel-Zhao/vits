@@ -1,9 +1,12 @@
-*2023/Oct/20
-This repo aims to equip VITS with self-supervised learning ability. \
-Trying to combine VITS with Wave2Vec2.0, most of the code will based on VITS.\
+*2023/Oct/20\
+This repository is a reimplementation of the code for the paper titled 'Transfer Learning Framework for Low-Resource Text-to-Speech using a Large-Scale Unlabeled Speech Corpus' created in response to the original paper's lack of provided code for the discussed method. \
+See the link https://doi.org/10.48550/arXiv.2203.15447 \
+
+**Methdology**
+Aims to equip VITS with self-supervised learning ability. \
 The original idea: Trying to using wave2vec2 to generate phonemes from audiowave, to replace the word preprocess part of VITS.\
 Pretraining stage: all parameters are trainable (Wave2vec2 not included)\
-Fine-Tuning stage: Perhaps only train FLOW part is enough? (Wait to try)\
+Fine-Tuning stage: Perhaps only train FLOW part is enough \
 Prediction stage: The same as VITS.\
 More detailed will be updated later.\
 

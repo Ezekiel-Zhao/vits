@@ -4,13 +4,13 @@ See the link https://doi.org/10.48550/arXiv.2203.15447
 
 **Methdology**
 Aims to equip VITS with self-supervised learning ability. \
-The original idea: Trying to using wave2vec2 to generate phonemes from audiowave, to replace the word preprocess part of VITS.\
-Pretraining stage: all parameters are trainable (Wave2vec2 not included)\
-Fine-Tuning stage: Perhaps only train FLOW part is enough \
+Idea: This is being achieved by applying a K-means codebook to the Wave2Vec2 hidden states, creating a pseudo-phoneme to replace the phoneme input in VITS. Meanwhile, we added extra two parts: Pre-training & Fine-Tuning. \
+Pretraining stage: All parameters are trainable (Wave2vec2 not included).\
+Fine-Tuning stage: Only train FLOW part is enough. \
 Prediction stage: The same as VITS.\
 More detailed will be updated later.\
 
-*Due to the intensive workload in university, This repo will be updated per week or two weeks. 
+*Due to the intensive workload in university, This repo will be updated per week or two weeks.* 
 
 *2023/Nov/10* \
 Simplified Attemtion, see First Try folder: \
@@ -23,3 +23,7 @@ Use Wave2Vec2 latent representation + K-Means as psedo-phoneme.
 
 *2023/Nov/16* \
 Edited Models.py, finish pseudo phoneme extraction part, and finished Pseudo_Text_Encoder.
+
+*2023/Nov/22* \
+Edited SynthesizerTrn to phoneme_SynthesizerTrn, determinded which part of original code needed to be edited.\
+In Train.py: net_g, train_and_evaluate method, and need to create pre-training, fine-tuning part.

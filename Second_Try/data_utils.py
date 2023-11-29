@@ -13,7 +13,7 @@ from text import text_to_sequence, cleaned_text_to_sequence
 
 class TextAudioLoader(torch.utils.data.Dataset):
     """
-        1) loads audio, text pairs
+        1) loads audio / audio + text pairs based on pre-traning, fine-tuning mode.
         2) normalizes text and converts them to sequences of integers
         3) computes spectrograms from audio files.
     """
@@ -58,6 +58,9 @@ class TextAudioLoader(torch.utils.data.Dataset):
 
     def get_audio_text_pair(self, audiopath_and_text):
         # separate filename and text
+        # TODO:
+        # NOTICE: When there are only audio files, text path is None, functions shoule be edited later.
+        # Working on audio-text pairs dataset only <Currently>.
         audiopath, text = audiopath_and_text[0], audiopath_and_text[1]
         text = self.get_text(text)
         spec, wav = self.get_audio(audiopath)

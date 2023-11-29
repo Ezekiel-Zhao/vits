@@ -28,3 +28,6 @@ Edited Models.py, finish pseudo phoneme extraction part, and finished Pseudo_Tex
 *2023/Nov/22* \
 Edited SynthesizerTrn to phoneme_SynthesizerTrn, determinded which part of original code needed to be edited.\
 In Train.py: net_g, train_and_evaluate method, and need to create pre-training, fine-tuning part.
+
+*2023/Nov/29* \
+Pre-training procedure is added, however, identified few bugs in Syr, needed to be fixed.

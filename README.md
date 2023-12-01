@@ -31,3 +31,6 @@ In Train.py: net_g, train_and_evaluate method, and need to create pre-training, 
 
 *2023/Nov/29* \
 Pre-training procedure is added, however, identified few bugs in Syr, needed to be fixed.
+
+*2023/Nov/30* \
+Bugs are caused by training device, since my code were testing use CPU, not GPU.

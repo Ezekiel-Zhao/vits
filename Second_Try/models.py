@@ -557,12 +557,11 @@ class psudo_phoneme(nn.Module):
     return type is list of list of phonemes.[[]] 2d-list
     '''
     audio_wave = audio_wave.squeeze(1) # now has size [batch_size, wave_len]
-
     self.model.to(audio_wave.device)
     self.model.eval() 
 
     input_values = self.processor(audio_wave, return_tensors="pt", sampling_rate=16000).input_values.squeeze(0) #############################
- 
+    input_values = input_values.to(audio_wave.device)
     with torch.no_grad():
         outputs = self.model(input_values)
         hidden_representations = outputs.last_hidden_state
@@ -571,7 +570,7 @@ class psudo_phoneme(nn.Module):
 
     for i in range(hidden_representations.shape[0]):
         # Perform K-means clustering on each row of the hidden representations 
-        sub_hidden = hidden_representations[i]
+        sub_hidden = hidden_representations[i].cpu()
         kmeans = KMeans(n_clusters=self.n_clusters, random_state=42).fit(sub_hidden)
         # Get cluster indices for each frame
         cluster_indices = kmeans.labels_
@@ -601,6 +600,9 @@ class psudo_phoneme(nn.Module):
         text = row
         text_padded[i, :len(text)] = torch.LongTensor(text)
         text_lengths[i] = len(text)
+        
+    text_padded = text_padded.to(audio_wave.device)
+    text_lengths = text_lengths.to(audio_wave.device)
         
     
     '''

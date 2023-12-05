@@ -547,8 +547,8 @@ class psudo_phoneme(nn.Module):
     self.processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-base-960h")
     self.model = Wav2Vec2Model.from_pretrained("facebook/wav2vec2-base-960h")
     self.n_clusters = n_clusters
-    print("check sampling rate"*100)
-
+    for param in self.model.parameters():
+      param.requires_grad = False
       
 
   def forward(self, audio_wave):
@@ -557,21 +557,20 @@ class psudo_phoneme(nn.Module):
     return type is list of list of phonemes.[[]] 2d-list
     '''
     audio_wave = audio_wave.squeeze(1) # now has size [batch_size, wave_len]
-    self.model.to(audio_wave.device)
-    self.model.eval() 
+    model = self.model.to(audio_wave.device)
+    model.eval() 
 
     input_values = self.processor(audio_wave, return_tensors="pt", sampling_rate=16000).input_values.squeeze(0) #############################
     input_values = input_values.to(audio_wave.device)
-    with torch.no_grad():
-        outputs = self.model(input_values)
-        hidden_representations = outputs.last_hidden_state
+    outputs = model(input_values)
+    hidden_representations = outputs.last_hidden_state
 
     batch_of_phonemes = []
 
     for i in range(hidden_representations.shape[0]):
         # Perform K-means clustering on each row of the hidden representations 
         sub_hidden = hidden_representations[i].cpu()
-        kmeans = KMeans(n_clusters=self.n_clusters, random_state=42).fit(sub_hidden)
+        kmeans = KMeans(n_clusters=self.n_clusters, random_state=42, n_init = 10).fit(sub_hidden)
         # Get cluster indices for each frame
         cluster_indices = kmeans.labels_
 
@@ -603,20 +602,6 @@ class psudo_phoneme(nn.Module):
         
     text_padded = text_padded.to(audio_wave.device)
     text_lengths = text_lengths.to(audio_wave.device)
-        
-    
-    '''
-    # test 2
-    import time
-    t1 = time.time()
-    max_text_len = max([len(x) for x in batch_of_phonemes])
-    text_padded = torch.LongTensor(len(batch_of_phonemes), max_text_len)
-    text_padded.zero_()
-    for i in range(len(batch_of_phonemes)):
-       text_padded[i, :len(batch_of_phonemes[i])] = torch.LongTensor(batch_of_phonemes[i])
-    t2 = time.time()
-    print("time for padding", t2-t1)'''
-    
 
 
     return text_padded, text_lengths
@@ -836,3 +821,29 @@ class phoneme_SynthesizerTrn(nn.Module):
     o_hat = self.dec(z_hat * y_mask, g=g_tgt)
     return o_hat, y_mask, (z, z_p, z_hat)
 
+def infer_pre_training(self, y, y_lengths, sid=None, noise_scale=1, length_scale=1, noise_scale_w=1., max_len=None):
+    x, x_lengths = self.phoneme_generator(y)
+    x, m_p, logs_p, x_mask = self.enc_p(x, x_lengths)
+    if self.n_speakers > 0:
+      g = self.emb_g(sid).unsqueeze(-1) # [b, h, 1]
+    else:
+      g = None
+
+    if self.use_sdp:
+      logw = self.dp(x, x_mask, g=g, reverse=True, noise_scale=noise_scale_w)
+    else:
+      logw = self.dp(x, x_mask, g=g)
+    w = torch.exp(logw) * x_mask * length_scale
+    w_ceil = torch.ceil(w)
+    y_lengths = torch.clamp_min(torch.sum(w_ceil, [1, 2]), 1).long()
+    y_mask = torch.unsqueeze(commons.sequence_mask(y_lengths, None), 1).to(x_mask.dtype)
+    attn_mask = torch.unsqueeze(x_mask, 2) * torch.unsqueeze(y_mask, -1)
+    attn = commons.generate_path(w_ceil, attn_mask)
+
+    m_p = torch.matmul(attn.squeeze(1), m_p.transpose(1, 2)).transpose(1, 2) # [b, t', t], [b, t, d] -> [b, d, t']
+    logs_p = torch.matmul(attn.squeeze(1), logs_p.transpose(1, 2)).transpose(1, 2) # [b, t', t], [b, t, d] -> [b, d, t']
+
+    z_p = m_p + torch.randn_like(m_p) * torch.exp(logs_p) * noise_scale
+    z = self.flow(z_p, y_mask, g=g, reverse=True)
+    o = self.dec((z * y_mask)[:,:,:max_len], g=g)
+    return o, attn, y_mask, (z, z_p, m_p, logs_p)

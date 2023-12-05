@@ -13,6 +13,8 @@ More details will be updated later.
 
 *Due to the intensive workload in university, This repo will be updated per week or two weeks.* 
 
+**Time Line** \
+
 *2023/Nov/10* \
 Simplified Attemtion, see First Try folder: \
 Attempted to use Wave2vec2 in Dataloader to assess whether the original idea is feasible. However, after completing the code, an issue was discovered: It failed to utilize multi-processor, num_worker cannot be > 0. It seems I should find a way to combine Wave2vec2 with the model.

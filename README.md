@@ -30,7 +30,10 @@ Edited SynthesizerTrn to phoneme_SynthesizerTrn, determinded which part of origi
 In Train.py: net_g, train_and_evaluate method, and need to create pre-training, fine-tuning part.
 
 *2023/Nov/29* \
-Pre-training procedure is added, however, identified few bugs in Syr, needed to be fixed.
+Pre-training procedure is added, however, identified few bugs in SynthesizerTrn, needed to be fixed.
 
 *2023/Nov/30* \
 Bugs are caused by training device, since my code were testing use CPU, not GPU.
+
+*2023/Dec/5* \
+Pre-training part is almost done. Tested on the LJ Speech, the loss seems good. The fine-tuning and inference will be added soon.

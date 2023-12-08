@@ -40,3 +40,6 @@ Bugs are caused by the training device, as my code was tested using a CPU, not a
 *2023/Dec/5* \
 Pre-training part is almost complete. Tested on the LJ Speech dataset, the loss appears satisfactory. The fine-tuning and inference will be added soon.
 
+*2023/Dec/8* \
+Fine-tuning part is finished, the model is training, I will update the code very soon.
+

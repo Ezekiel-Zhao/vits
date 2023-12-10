@@ -32,11 +32,11 @@ Notice, the speech dataset should has sampling rate = 16000.
 
 
 ### However, there is one thing I need to mention
-Due to GPU computation constraints, I was only able to complete 6 epochs of pre-training, which required approximately 30 hours on a GTX 3090 with a batch size of 10. This process exhibited a convergence trend closely resembling that of the original VITS, suggesting that the training procedure was correctly implemented. \
+Due to GPU computation constraints, I was only able to complete 6 epochs of pre-training, which required approximately 30 hours on a GTX 3090 with a batch size of 10. This process exhibited a convergence trend closely resembling that of the original VITS, suggesting that the training procedure was correctly implemented.
 
-When testing a voice clip using the pre-trained model, I was able to roughly discern tone and content in the output. This test aimed to verify if the model had learned anything during the pre-training phase. It's important to note that the duration predictor wasn't trained during pre-training, so I didn't anticipate passing results using only the duration predictor with its initialized parameters.\
+When testing a voice clip using the pre-trained model, I was able to roughly discern tone and content in the output. This test aimed to verify if the model had learned anything during the pre-training phase. It's important to note that the duration predictor wasn't trained during pre-training, so I didn't anticipate passing results using only the duration predictor with its initialized parameters.
 
-Following this, I fine-tuned the model on a subset of the LJ Speech dataset. The loss showed a decreasing trend, indicating that the model was improving. Considering the incomplete training of the pre-training model, my primary goal was to ensure that the fine-tuning process was functioning correctly. \
+Following this, I fine-tuned the model on a subset of the LJ Speech dataset. The loss showed a decreasing trend, indicating that the model was improving. Considering the incomplete training of the pre-training model, my primary goal was to ensure that the fine-tuning process was functioning correctly.
 
 
 
@@ -73,4 +73,4 @@ Pre-training part is almost complete. Tested on the LJ Speech dataset, the loss 
 Fine-tuning part is finished, the model is training, I will update the code very soon.
 
 *2023/Dec/10* \
-Code is updated. Instructions about how to train the model is also updated. \
+Code is updated. Instructions about how to train the model is also updated. 

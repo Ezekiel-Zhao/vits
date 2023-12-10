@@ -31,7 +31,7 @@ Notice, the speech dataset should has sampling rate = 16000.
 
 
 
-## However, there is one thing I need to mention
+### However, there is one thing I need to mention
 Due to GPU computation constraints, I was only able to complete 6 epochs of pre-training, which required approximately 30 hours on a GTX 3090 with a batch size of 10. This process exhibited a convergence trend closely resembling that of the original VITS, suggesting that the training procedure was correctly implemented. \
 
 When testing a voice clip using the pre-trained model, I was able to roughly discern tone and content in the output. This test aimed to verify if the model had learned anything during the pre-training phase. It's important to note that the duration predictor wasn't trained during pre-training, so I didn't anticipate passing results using only the duration predictor with its initialized parameters.\
@@ -42,7 +42,7 @@ Following this, I fine-tuned the model on a subset of the LJ Speech dataset. The
 
 *Due to the intensive workload in university, This repo will be updated per week or two weeks.* 
 
-## Time Line 
+# Time Line 
 
 *2023/Nov/10* \
 Simplified Attemtion, see First Try folder: \

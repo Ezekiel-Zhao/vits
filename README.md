@@ -17,10 +17,10 @@ More details will be updated later.
 1. Pre-training & Fine-Tuning Part: \
   See Second_Try/configs/ljs_base.json, ```set training_mode.mode = "pre-training" or "fine-tuning"```, and all is done!
 2. The classes I wrote in models.py: \
-   *psudo_phoneme*: input as audio-waves, output as the pseudo-phoneme, output example: [0, 12, 0, 14, 0, 120, 0, 42] the pseduo phoneme for "I love you".\
-   *pseudo_text_encoder*: the pseudo-phoneme encoder. \
-   *phoneme_SynthesizerTrn*: The generator for the pre-training procedure. The method infer_pre_training in this class, gives a way to test this generator. \
-   *SynthesizerTrn*: I edited this to fit the fine-tuning mode. 
+   ```psudo_phoneme```: input as audio-waves, output as the pseudo-phoneme, output example: [0, 12, 0, 14, 0, 120, 0, 42] the pseduo phoneme for "I love you".\
+   ```pseudo_text_encoder```: the pseudo-phoneme encoder. \
+   ```phoneme_SynthesizerTrn```: The generator for the pre-training procedure. The method infer_pre_training in this class, gives a way to test this generator. \
+   ```SynthesizerTrn```: I edited this to fit the fine-tuning mode. 
 
    In train.py & data_utils.py:\
    train_and_evaluate_fine_tuning & train_and_evaluate_pre_training method is added.\

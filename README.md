@@ -32,11 +32,19 @@ More details will be updated later.
 
 
 ### However, there is one thing I need to mention
-Due to GPU computation constraints, I was only able to complete 6 epochs of pre-training, which required approximately 30 hours on a GTX 3090 with a batch size of 10. This process exhibited a convergence trend closely resembling that of the original VITS, suggesting that the training procedure was correctly implemented.
+Due to GPU computation constraints, I was only able to complete 6 epochs of pre-training, which required approximately 30 hours on a GTX 3090 with a batch size of 10. This process exhibited a convergence trend closely resembling that of the original VITS(*), suggesting that the training procedure was correctly implemented.
 
 When testing a voice clip using the pre-trained model, I was able to roughly discern tone and content in the output. This test aimed to verify if the model had learned anything during the pre-training phase. It's important to note that the duration predictor wasn't trained during pre-training, so I didn't anticipate passing results using only the duration predictor with its initialized parameters.
 
 Following this, I fine-tuned the model on a subset of the LJ Speech dataset. The loss showed a decreasing trend, indicating that the model was improving. Considering the incomplete training of the pre-training model, my primary goal was to ensure that the fine-tuning process was functioning correctly.
+
+(*):
+The loss trend for pre-training part:
+![image text](https://github.com/Ezekiel-Zhao/vits/blob/main/Img_folder/pre-training.png)
+The loss trend for VITS:
+![image text](https://github.com/Ezekiel-Zhao/vits/blob/main/Img_folder/vits.png)
+
+
 
 
 

@@ -10,7 +10,7 @@ Fine-Tuning stage: Training is required for FLOW, Decoder, and the reference enc
 Prediction stage: Identical to VITS.\
 More details will be updated later.
 
-
+![image text](https://github.com/Ezekiel-Zhao/vits/blob/main/Img_folder/model.png)
 
 **How to use this repo** \
 Notice, the speech dataset should has sampling rate = 16000.

@@ -6,7 +6,7 @@ See the link https://doi.org/10.48550/arXiv.2203.15447
 Aims to equip VITS with self-supervised learning capability.\
 Idea: This is achieved by applying a K-means codebook to the Wave2Vec2 hidden states, creating a pseudo-phoneme to replace the phoneme input in VITS. Additionally, we added two extra parts: Pre-training & Fine-Tuning. \
 Pretraining stage: All parameters are trainable (excluding Wave2vec2), while the Duration Predictor is not included in the pre-training part.\
-Fine-Tuning stage: Training is required for FLOW, Decoder, and the reference encoder.\
+Fine-Tuning stage: Training is required for FLOW, Text Encoder, and the Duration Predictor.\
 Prediction stage: Identical to VITS.\
 More details will be updated later.
 

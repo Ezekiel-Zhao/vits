@@ -7,7 +7,7 @@ Aims to equip VITS with self-supervised learning capability.\
 Idea: This is achieved by applying a K-means codebook to the Wave2Vec2 hidden states, creating a pseudo-phoneme to replace the phoneme input in VITS. Additionally, we added two extra parts: Pre-training & Fine-Tuning. \
 Pretraining stage: All parameters are trainable (excluding Wave2vec2), while the Duration Predictor is not included in the pre-training part.\
 Fine-Tuning stage: Training is required for FLOW, Decoder, and the reference encoder.\
-Prediction stage: Identical to VITS.
+Prediction stage: Identical to VITS.\
 More details will be updated later.
 
 **How to use this repo** \
@@ -18,14 +18,14 @@ Notice, the speech dataset should has sampling rate = 16000.
    *psudo_phoneme*: input as audio-waves, output as the pseudo-phoneme, output example: [0, 12, 0, 14, 0, 120, 0, 42] the pseduo phoneme for "I love you".\
    *pseudo_text_encoder*: the pseudo-phoneme encoder. \
    *phoneme_SynthesizerTrn*: The generator for the pre-training procedure. The method infer_pre_training in this class, gives a way to test this generator. \
-   *SynthesizerTrn*: I edited this to fit the fine-tuning mode. \
+   *SynthesizerTrn*: I edited this to fit the fine-tuning mode. 
 
    In train.py & data_utils.py:\
    train_and_evaluate_fine_tuning & train_and_evaluate_pre_training method is added.\
-   specify the training_mode in the configuration to load (text, vocie_wave, spec) or (voice_wave, spec).\
+   specify the training_mode in the configuration to load (text, vocie_wave, spec) or (voice_wave, spec).
 
 3. text_phoneme.ipynb, if you want test the class *psudo_phoneme*. \
-4. inference.ipynb, after finish the fine-tuning, you can test the performance here.\
+4. inference.ipynb, after finish the fine-tuning, you can test the performance here.
 
 
 **However, there is one thing I need to mention**\

@@ -13,9 +13,9 @@ More details will be updated later.
 ![image text](https://github.com/Ezekiel-Zhao/vits/blob/main/Img_folder/model.png)
 
 # How to use this repo 
-Notice, the speech dataset should has sampling rate = 16000.
+**Notice, the speech dataset should has sampling rate = 16000.**
 1. Pre-training & Fine-Tuning Part: \
-  See Second_Try/configs/ljs_base.json, set training_mode.mode = "pre-training" or "fine-tuning", and all is done!
+  See Second_Try/configs/ljs_base.json, ```set training_mode.mode = "pre-training" or "fine-tuning"```, and all is done!
 2. The classes I wrote in models.py: \
    *psudo_phoneme*: input as audio-waves, output as the pseudo-phoneme, output example: [0, 12, 0, 14, 0, 120, 0, 42] the pseduo phoneme for "I love you".\
    *pseudo_text_encoder*: the pseudo-phoneme encoder. \

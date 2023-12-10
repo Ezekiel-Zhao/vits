@@ -2,7 +2,7 @@
 This repository is a reimplementation of the code for the paper titled 'Transfer Learning Framework for Low-Resource Text-to-Speech using a Large-Scale Unlabeled Speech Corpus' created in response to the original paper's lack of provided code for the discussed method. \
 See the link https://doi.org/10.48550/arXiv.2203.15447
 
-# Methodology \
+# Methodology 
 Aims to equip VITS with self-supervised learning capability.\
 Idea: This is achieved by applying a K-means codebook to the Wave2Vec2 hidden states, creating a pseudo-phoneme to replace the phoneme input in VITS. Additionally, we added two extra parts: Pre-training & Fine-Tuning. \
 Pretraining stage: All parameters are trainable (excluding Wave2vec2), while the Duration Predictor is not included in the pre-training part.\
@@ -12,7 +12,7 @@ More details will be updated later.
 
 ![image text](https://github.com/Ezekiel-Zhao/vits/blob/main/Img_folder/model.png)
 
-# How to use this repo \
+# How to use this repo 
 Notice, the speech dataset should has sampling rate = 16000.
 1. Pre-training & Fine-Tuning Part: \
   See Second_Try/configs/ljs_base.json, set training_mode.mode = "pre-training" or "fine-tuning", and all is done!
@@ -31,7 +31,7 @@ Notice, the speech dataset should has sampling rate = 16000.
 
 
 
-# However, there is one thing I need to mention
+## However, there is one thing I need to mention
 Due to GPU computation constraints, I was only able to complete 6 epochs of pre-training, which required approximately 30 hours on a GTX 3090 with a batch size of 10. This process exhibited a convergence trend closely resembling that of the original VITS, suggesting that the training procedure was correctly implemented. \
 
 When testing a voice clip using the pre-trained model, I was able to roughly discern tone and content in the output. This test aimed to verify if the model had learned anything during the pre-training phase. It's important to note that the duration predictor wasn't trained during pre-training, so I didn't anticipate passing results using only the duration predictor with its initialized parameters.\
@@ -42,7 +42,7 @@ Following this, I fine-tuned the model on a subset of the LJ Speech dataset. The
 
 *Due to the intensive workload in university, This repo will be updated per week or two weeks.* 
 
-# Time Line 
+## Time Line 
 
 *2023/Nov/10* \
 Simplified Attemtion, see First Try folder: \

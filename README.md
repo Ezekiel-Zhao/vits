@@ -23,11 +23,11 @@ More details will be updated later.
    ```SynthesizerTrn```: I edited this to fit the fine-tuning mode. 
 
    In train.py & data_utils.py:\
-   train_and_evaluate_fine_tuning & train_and_evaluate_pre_training method is added.\
+   ```train_and_evaluate_fine_tuning``` & ```train_and_evaluate_pre_training``` methods is added.\
    specify the training_mode in the configuration to load (text, vocie_wave, spec) or (voice_wave, spec).
 
-3. text_phoneme.ipynb, if you want test the class *psudo_phoneme*. 
-4. inference.ipynb, after finish the fine-tuning, you can test the performance here.
+3. ```text_phoneme.ipynb```, if you want test the class *psudo_phoneme*. 
+4. ```inference.ipynb```, after finish the fine-tuning, you can test the performance here.
 
 
 

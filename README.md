@@ -39,9 +39,9 @@ When testing a voice clip using the pre-trained model, I was able to roughly dis
 Following this, I fine-tuned the model on a subset of the LJ Speech dataset. The loss showed a decreasing trend, indicating that the model was improving. Considering the incomplete training of the pre-training model, my primary goal was to ensure that the fine-tuning process was functioning correctly.
 
 (*):
-The loss trend for pre-training part:
+The loss trend for pre-training part, [loss_disc, loss_gen, loss_fm, loss_mel, loss_kl]:
 ![image text](https://github.com/Ezekiel-Zhao/vits/blob/main/Img_folder/pre-training.png)
-The loss trend for VITS:
+The loss trend for VITS, [loss_disc, loss_gen, loss_fm, loss_mel, loss_dur, loss_kl]:
 ![image text](https://github.com/Ezekiel-Zhao/vits/blob/main/Img_folder/vits.png)
 
 

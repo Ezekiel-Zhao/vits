@@ -10,7 +10,7 @@ Fine-Tuning stage: Training is required for FLOW, Decoder, and the reference enc
 Prediction stage: Identical to VITS.\
 More details will be updated later.
 
-\
+
 
 **How to use this repo** \
 Notice, the speech dataset should has sampling rate = 16000.
@@ -29,7 +29,7 @@ Notice, the speech dataset should has sampling rate = 16000.
 3. text_phoneme.ipynb, if you want test the class *psudo_phoneme*. 
 4. inference.ipynb, after finish the fine-tuning, you can test the performance here.
 
-\
+
 
 **However, there is one thing I need to mention**\
 Due to GPU computation constraints, I was only able to complete 6 epochs of pre-training, which required approximately 30 hours on a GTX 3090 with a batch size of 10. This process exhibited a convergence trend closely resembling that of the original VITS, suggesting that the training procedure was correctly implemented. \
@@ -38,11 +38,11 @@ When testing a voice clip using the pre-trained model, I was able to roughly dis
 
 Following this, I fine-tuned the model on a subset of the LJ Speech dataset. The loss showed a decreasing trend, indicating that the model was improving. Considering the incomplete training of the pre-training model, my primary goal was to ensure that the fine-tuning process was functioning correctly. \
 
-\
+
 
 *Due to the intensive workload in university, This repo will be updated per week or two weeks.* 
 
-**Time Line** \
+**Time Line** 
 
 *2023/Nov/10* \
 Simplified Attemtion, see First Try folder: \

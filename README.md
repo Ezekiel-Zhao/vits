@@ -15,14 +15,13 @@ More details will be updated later.
 # How to use this repo 
 **Notice, the speech dataset should has sampling rate = 16000.**
 1. Pre-training & Fine-Tuning Part: \
-  Python >= 3.6\
-  Clone this repository\
-  Install python requirements. Please refer [requirements.txt](requirements.txt)\
-      You may need to install espeak first: `apt-get install espeak`\
-  Download datasets\
-      Download and extract the LJ Speech dataset with **sampling_rate = 16000**, then rename or create a link to the dataset folder: `ln -s /path/to/LJSpeech-1.1/wavs DUMMY1`\
-      For mult-speaker setting, download and extract the VCTK dataset, and downsample wav files to 22050 Hz. Then rename or create a link to the dataset folder: `ln -s /path/to/VCTK-Corpus/downsampled_wavs DUMMY2`\
-  Build Monotonic Alignment Search and run preprocessing if you use your own datasets.\
+  ·Python >= 3.6\
+  ·Clone this repository\
+  ·Install python requirements. Please refer [requirements.txt](requirements.txt)\
+      ·You may need to install espeak first: `apt-get install espeak`\
+      ·Download and extract the LJ Speech dataset with **sampling_rate = 16000**, then rename or create a link to the dataset folder: `ln -s /path/to/LJSpeech-1.1/wavs DUMMY1`\
+      ·For mult-speaker setting, download and extract the VCTK dataset, and downsample wav files to 22050 Hz. Then rename or create a link to the dataset folder: `ln -s /path/to/VCTK-Corpus/downsampled_wavs DUMMY2`\
+  ·Build Monotonic Alignment Search and run preprocessing if you use your own datasets.\
   ```sh
   # Cython-version Monotonoic Alignment Search
   cd monotonic_align
@@ -32,7 +31,15 @@ More details will be updated later.
   # python preprocess.py --text_index 1 --filelists filelists/ljs_audio_text_train_filelist.txt filelists/ljs_audio_text_val_filelist.txt filelists/ljs_audio_text_test_filelist.txt 
   # python preprocess.py --text_index 2 --filelists filelists/vctk_audio_sid_text_train_filelist.txt filelists/vctk_audio_sid_text_val_filelist.txt filelists/vctk_audio_sid_text_test_filelist.txt
   ```
-  See Second_Try/configs/ljs_base.json, ```set training_mode.mode = "pre-training" or "fine-tuning"```, and all is done!
+  ·See Second_Try/configs/ljs_base.json, ```set training_mode.mode = "pre-training" or "fine-tuning"```, and all is done!
+
+    ```sh
+    # LJ Speech
+    python train.py -c configs/ljs_base.json -m ljs_base
+
+    # VCTK
+    python train_ms.py -c configs/vctk_base.json -m vctk_base
+    ```
 
 2. The classes I wrote in models.py: \
    ```psudo_phoneme```: input as audio-waves, output as the pseudo-phoneme, output example: [0, 12, 0, 14, 0, 120, 0, 42] the pseduo phoneme for "I love you".\

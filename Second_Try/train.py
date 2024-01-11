@@ -12,6 +12,8 @@ import torch.multiprocessing as mp
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.cuda.amp import autocast, GradScaler
+import numpy as np
+from sklearn.cluster import KMeans
 
 import commons
 import utils
@@ -24,6 +26,7 @@ from models import (
   SynthesizerTrn,
   phoneme_SynthesizerTrn,
   MultiPeriodDiscriminator,
+  psudo_phoneme,
 )
 from losses import (
   generator_loss,
@@ -79,6 +82,23 @@ def run(rank, n_gpus, hps, mode = 'pre-training'):
   collate_fn = TextAudioCollate(mode=mode)
   train_loader = DataLoader(train_dataset, num_workers=8, shuffle=False, pin_memory=True,
       collate_fn=collate_fn, batch_sampler=train_sampler)
+  
+  # Apply Wave2vec2 to all audio wave
+  psudo_phoneme_instance = psudo_phoneme()
+  processor = psudo_phoneme_instance.processor
+  model = psudo_phoneme_instance.model
+  outputs = []
+  with torch.no_grad():
+      for batch in train_loader:
+        input_values = processor(batch, return_tensors="pt", padding=True, sampling_rate=16000).input_values.squeeze(0)
+        output = model(input_values)
+        hidden_representations = outputs.last_hidden_state
+        outputs.append(hidden_representations.reshape(-1, 768).cpu().numpy())
+  
+  # Codebook generation
+  codebook = KMeans(n_clusters=128, random_state=0).fit(outputs)
+
+
   if rank == 0:
     eval_dataset = TextAudioLoader(hps.data.validation_files, hps.data, mode)
     eval_loader = DataLoader(eval_dataset, num_workers=8, shuffle=False,
@@ -88,6 +108,7 @@ def run(rank, n_gpus, hps, mode = 'pre-training'):
   # based on training mode to change generator network.  
   if hps.training_mode.mode == 'pre-training':
     net_g = phoneme_SynthesizerTrn(
+      codebook,
       len(symbols),
       hps.data.filter_length // 2 + 1,
       hps.train.segment_size // hps.data.hop_length,

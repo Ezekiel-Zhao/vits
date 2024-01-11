@@ -559,7 +559,7 @@ class SynthesizerTrn(nn.Module):
 
 class psudo_phoneme(nn.Module):
 
-  def __init__(self, n_clusters=128):
+  def __init__(self, n_clusters=128, codebook = None):
     super().__init__()
     self.processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-base-960h")
     self.model = Wav2Vec2Model.from_pretrained("facebook/wav2vec2-base-960h")
@@ -567,8 +567,8 @@ class psudo_phoneme(nn.Module):
     for param in self.model.parameters():
       param.requires_grad = False
     self.model.eval()
-      
-
+    self.codebook = codebook
+    
   def forward(self, audio_wave):
     ## check sampling rate
     '''
@@ -586,11 +586,9 @@ class psudo_phoneme(nn.Module):
     batch_of_phonemes = []
 
     for i in range(hidden_representations.shape[0]):
-        # Perform K-means clustering on each row of the hidden representations 
+        # using codebook find the nearest index
         sub_hidden = hidden_representations[i].cpu()
-        kmeans = KMeans(n_clusters=self.n_clusters, random_state=42, n_init = 10).fit(sub_hidden)
-        # Get cluster indices for each frame
-        cluster_indices = kmeans.labels_
+        cluster_indices = self.codebook.predict(sub_hidden)
 
         # Merge consecutive indices
         merged_indices = [0]
@@ -700,6 +698,7 @@ class phoneme_SynthesizerTrn(nn.Module):
   """
 
   def __init__(self, 
+    codebook,
     n_vocab,
     spec_channels,
     segment_size,
@@ -722,6 +721,7 @@ class phoneme_SynthesizerTrn(nn.Module):
     **kwargs):
 
     super().__init__()
+    self.codebook = codebook
     self.n_vocab = n_vocab
     self.spec_channels = spec_channels
     self.inter_channels = inter_channels
@@ -742,7 +742,7 @@ class phoneme_SynthesizerTrn(nn.Module):
     self.gin_channels = gin_channels
 
     self.use_sdp = use_sdp
-    self.phoneme_generator = psudo_phoneme(128)  #后续可以改成参数传入
+    self.phoneme_generator = psudo_phoneme(128, codebook=self.codebook)  #后续可以改成参数传入
     self.enc_p = pseudo_text_encoder(n_vocab,
         inter_channels,
         hidden_channels,
